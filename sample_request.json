@@ -1,0 +1,10 @@
+{
+  "user_id": "user_001",
+  "session_id": "session_001",
+  "message": "Our team needs help routing an urgent workflow exception",
+  "use_case": "operations_assistant",
+  "use_retrieval": true,
+  "metadata": {
+    "channel": "web"
+  }
+}
