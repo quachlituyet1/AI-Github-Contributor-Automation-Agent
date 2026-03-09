@@ -1,26 +1,24 @@
 # AI GitHub Contributor Automation Agent
 
-An AI agent project with backend + UI that ingests real GitHub issues for AI topics and helps you choose what to work on next.
+[![Docker Pulls](https://img.shields.io/docker/pulls/jahnavik186/ai-github-contributor-automation-agent?style=for-the-badge)](https://hub.docker.com/r/jahnavik186/ai-github-contributor-automation-agent)
+[![Docker Image](https://img.shields.io/badge/docker-jahnavik186%2Fai--github--contributor--automation--agent-blue?style=for-the-badge&logo=docker)](https://hub.docker.com/r/jahnavik186/ai-github-contributor-automation-agent)
 
-## Capabilities
+Turn real GitHub issues into a clear execution plan in seconds.
 
-- Discovers open issues from popular AI open-source repositories
-- Filters by difficulty: `good_first`, `intermediate`, `hard`
-- Suggests likely code/documentation/test changes needed for a selected issue
-- Supports demo pipeline endpoints for analysis, fix ideas, and PR draft generation
+This project helps contributors and maintainers discover AI-related open issues, estimate effort, and generate PR-ready implementation guidance with a fallback-safe workflow (heuristics first, optional generative layer).
 
-## Local Demo with Docker
+## Why People Use It
 
-Build:
+- Find active, relevant GitHub issues quickly
+- Filter by practical difficulty (`good_first`, `intermediate`, `hard`)
+- Generate concrete next steps before opening an editor
+- Draft PR summaries and likely file changes faster
 
-```bash
-docker build -t ai-github-contributor-automation-agent .
-```
-
-Run:
+## Quick Start (Docker Hub)
 
 ```bash
-docker run --rm -p 8000:8000 ai-github-contributor-automation-agent
+docker pull jahnavik186/ai-github-contributor-automation-agent:latest
+docker run --rm -p 8000:8000 jahnavik186/ai-github-contributor-automation-agent:latest
 ```
 
 Open:
@@ -29,9 +27,21 @@ Open:
 - Health: http://localhost:8000/health
 - API docs: http://localhost:8000/docs
 
-## Real GitHub Ingestion
+## Build Locally
 
-The app now calls GitHub API directly to discover issues.
+```bash
+docker build -t ai-github-contributor-automation-agent .
+docker run --rm -p 8000:8000 ai-github-contributor-automation-agent
+```
+
+## Core Capabilities
+
+- Discover issues from real GitHub repositories
+- Match issue complexity by difficulty tier
+- Suggest code/doc/test changes for a selected issue
+- Generate implementation-first PR draft content
+
+## Real GitHub Ingestion
 
 Optional for higher API rate limits:
 
@@ -40,19 +50,16 @@ Optional for higher API rate limits:
 $env:GITHUB_TOKEN="your_token_here"
 ```
 
-## Generative Suggestions for Beginner Issues
+## Optional Generative Planning Layer
 
-For beginner-friendly issues (for example labels like `good first issue`, `beginner`, or low-complexity `help wanted`),
-the planner can call a generative model to produce:
+For beginner-friendly issues (for example labels like `good first issue`, `beginner`, `help wanted`), the planner can call a generative model to produce:
 
 - likely code/doc/test changes
 - beginner-friendly first steps
 - likely touched files
 - effort estimate (`easy`/`medium`/`high`)
 
-If no model key is configured or model call fails, the app automatically falls back to deterministic heuristics.
-
-Set model credentials:
+If no model key is configured, or model call fails, the app falls back to deterministic heuristics.
 
 ```bash
 # Windows PowerShell
@@ -60,14 +67,7 @@ $env:OPENAI_API_KEY="your_openai_api_key"
 $env:OPENAI_MODEL="gpt-4.1-mini"  # optional override
 ```
 
-Use the UI:
-
-1. Enter any Interest Area (for example: `ai agents`, `computer vision`, `robotics`, `fintech`, `healthcare ai`)
-2. Select Difficulty (`good_first`, `intermediate`, `hard`)
-3. Click `Find Open Issues`
-4. Pick issue (repo + issue number) and click `Suggest Changes Needed`
-
-Use API directly:
+## API Examples
 
 ```bash
 curl -X POST http://localhost:8000/api/discover-issues \
@@ -81,20 +81,12 @@ curl -X POST http://localhost:8000/api/plan-issue \
   -d '{"repo":"huggingface/diffusers","issue_number":10076}'
 ```
 
-## API Example
-
 ```bash
 curl -X POST http://localhost:8000/api/demo \
   -H "content-type: application/json" \
   -d '{"repo":"open-source-labs/api-docs-toolkit","branch":"main"}'
 ```
 
-## Why this has global appeal
-
-- Developers can accelerate routine maintenance
-- Open-source maintainers can reduce issue backlog
-- New contributors can get PR-ready scaffolding quickly
-
 ## Notes
 
-This app is designed for local showcase and portfolio use. It ingests real issue metadata from GitHub, but it does not auto-merge or directly modify external repositories.
+This project is designed for local showcase and portfolio use. It ingests real issue metadata from GitHub, but does not auto-merge or directly modify external repositories.
