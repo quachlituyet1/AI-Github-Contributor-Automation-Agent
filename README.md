@@ -78,17 +78,6 @@ curl -X POST http://localhost:8000/api/discover-issues \
   -d '{"topic":"ai agents","difficulty":"good_first","limit":10}'
 ```
 
-```bash
-curl -X POST http://localhost:8000/api/plan-issue \
-  -H "content-type: application/json" \
-  -d '{"repo":"huggingface/diffusers","issue_number":10076}'
-```
-
-```bash
-curl -X POST http://localhost:8000/api/demo \
-  -H "content-type: application/json" \
-  -d '{"repo":"open-source-labs/api-docs-toolkit","branch":"main"}'
-```
 
 ## Notes
 
